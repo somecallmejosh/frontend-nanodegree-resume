@@ -39,6 +39,8 @@
     "HTMLonlineDates",
     "HTMLonlineURL",
     "internationalizeButton",
-    "googleMap"
+    "googleMap",
+    "console",
+    "document"
   ]
 }
