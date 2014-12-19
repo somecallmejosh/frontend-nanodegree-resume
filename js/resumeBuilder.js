@@ -1,9 +1,11 @@
+'use strict';
+
 var bio = {
   "name" : "Joshua Briley",
   "role" : "Front End Developer",
-  "contactInfo" : {
+  "contacts" : {
     "streetAddress" : "56 Starkweather St.",
-    "city" : "Manchester",
+    "location" : "Manchester",
     "state" : "CT",
     "zip" : "06042",
     "email" : "josh@thebrileys.com",
@@ -26,28 +28,28 @@ var work = {
         "title" : "Front End Developer",
         "location" : "Collinsville, CT",
         "dates" : "June 13 - Present",
-        "description" : "Front End Design and Development of Fantasy Sports Applications. We develop awesome gaming apps for professional sports organizations. Primary responsibilities include Haml, Sass, JS/JQuery development in RoR stack."
+        "description" : "Front End Design and Development of Fantasy Sports Applications.<br>We develop awesome gaming apps for professional sports organizations.<br>Primary responsibilities include Haml, Sass, JS/JQuery development in RoR stack."
       },
       {
         "employer" : "East Point Systems, Inc",
         "title" : "Front End Developer",
         "location" : "East Hartford, CT",
         "dates" : "Jan 13 - May 13",
-        "description" : "Front End Design and Development of Online Housing Reposession Industry Network. Click to edit position descriptionLead UX/UI designer on short term, large scale web application. Planned and developed landing page testing scenarios for maximum conversion. Saved company $10K/year by minimizing server side dependencies on company website."
+        "description" : "Front End Design and Development of Online Housing Reposession Industry Network.<br>Click to edit position descriptionLead UX/UI designer on short term, large scale web application.<br>Planned and developed landing page testing scenarios for maximum conversion.<br>Saved company $10K/year by minimizing server side dependencies on company website."
       },
       {
         "employer" : "ImageWorks, LLC",
         "title" : "Lead Designer and Front End Developer",
         "location" : "Vernon, CT",
         "dates" : "Aug 08 - Jan 13",
-        "description" : "Front End Design and Development of conversion oriented marketing websites. Strategized and implemented systems that decreased design and front end development time by more than 50%. Implemented “Lunch-and-Learn Friday” to train staff on standards based front end development techniques. Designed and developed projects featured on The Food Network and the Hartford Business Journal."
+        "description" : "Front End Design and Development of conversion oriented marketing websites.<br>Strategized and implemented systems that decreased design and front end development time by more than 50%.<br>Implemented \"Lunch-and-Learn Friday\" to train staff on standards based front end development techniques.<br>Designed and developed projects featured on The Food Network and the Hartford Business Journal."
       },
       {
         "employer" : "Para-Diddle Design, LLC",
         "title" : "Owner and Front End Developer",
-        "location" : "Manchester, CT",
+        "location" : "56 Starkweather St., Manchester, CT USA",
         "dates" : "Jan 04 - Aug 08",
-        "description" : "Front End Design and Development of conversion oriented marketing websites. Responsible for vision, budgeting, marketing/sales and other administrative tasks. Educated clients on best practices and conversion oriented design principles. Increased productivity by training staff on efficient coding and workflow practices."
+        "description" : "Front End Design and Development of conversion oriented marketing websites.<br>Responsible for vision, budgeting, marketing/sales and other administrative tasks.<br>Educated clients on best practices and conversion oriented design principles.<br>Increased productivity by training staff on efficient coding and workflow practices."
       }
     ]
 };
@@ -87,14 +89,14 @@ var education = {
   "schools" : [
     {
       "name" : "Troy University",
-      "city" : "Troy, AL",
+      "location" : "Troy, AL",
       "degree" : "Bachelors",
       "graduationYear" : 2001,
       "majors" : ["Biology"]
     },
     {
       "name" : "City Colleges of Chicago",
-      "city" : "Hohenfels, Germany",
+      "location" : "Hohenfels, Germany",
       "degree" : "Associates",
       "graduationYear" : 1997,
       "majors" : ["General Studies"]
@@ -139,28 +141,63 @@ var formattedRole = HTMLheaderRole.replace("%data%", bio.role);
 $("#header").append(formattedName).append(formattedRole);
 
 if (bio.skills.length > 0) {
-  $("#header").append(HTMLskillsStart);
   var skill;
+  $("#header").append(HTMLskillsStart);
   for (skill in bio.skills) {
     $("#skills").append(HTMLskills.replace("%data%", bio.skills[skill]));
   }
 }
 
 function displaywork() {
-  for (job in work.jobs) {
+  for (var job in work.jobs) {
     var job,
-    formattedEmployer = HTMLworkEmployer.replace("%data%", work.jobs[job].employer),
-    formattedTitle = HTMLworkTitle.replace("%data%", work.jobs[job].title),
-    formattedDate = HTMLworkDates.replace("%data%", work.jobs[job].dates),
-    formattedDescription = HTMLworkDescription.replace("%data%", work.jobs[job].description),
-    formattedEmployerTitle = formattedEmployer + formattedTitle;
-    
+        formattedEmployer = HTMLworkEmployer.replace("%data%", work.jobs[job].employer),
+        formattedTitle = HTMLworkTitle.replace("%data%", work.jobs[job].title),
+        formattedDate = HTMLworkDates.replace("%data%", work.jobs[job].dates),
+        formattedDescription = HTMLworkDescription.replace("%data%", work.jobs[job].description),
+        formattedEmployerTitle = formattedEmployer + formattedTitle;
+
     $("#workExperience").append(HTMLworkStart);
     $(".work-entry:last")
     .append(formattedEmployerTitle)
     .append(formattedDate)
     .append(formattedDescription);
   }
-}
-
+};
 displaywork();
+
+function inName() {
+  bio.name = bio.name.trim().split(" ");
+  bio.name[1] = bio.name[1].toUpperCase();
+  bio.name[0] = bio.name[0].slice(0,1).toUpperCase() + bio.name[0].slice(1).toLowerCase();
+  return bio.name[0] + " " + bio.name[1];
+}
+// Internationalization
+$("#main").append(internationalizeButton);
+
+
+projects.display = function() {
+  for (var project in projects.projects) {
+    var objPath = projects.projects[project];
+    $("#projects").append(HTMLprojectStart);
+
+    var formattedTitle = HTMLprojectTitle.replace("%data%", objPath.title);
+    $(".project-entry:last").append(formattedTitle);
+
+    var formattedDates = HTMLprojectDates.replace("%data%", objPath.dates);
+    $(".project-entry:last").append(formattedDates);
+
+    var formattedDescription = HTMLprojectDescription.replace("%data%", objPath.description);
+    $(".project-entry:last").append(formattedDescription);
+
+    if(objPath.images.length > 0) {
+      for(var image in objPath.images) {
+        var formattedImages = HTMLprojectImage.replace("%data%", objPath.images[image]);
+        $(".project-entry:last").append(formattedImages);
+      }
+    }
+  }
+}
+projects.display();
+
+$("#mapDiv").append(googleMap);

@@ -217,3 +217,12 @@ span {
     display: block;
   }
 }
+
+.project-entry img {
+  max-width: 400px;
+  height: auto;
+  display: inline-block;
+  vertical-align: top;
+  border: #f4f4f4 10px solid;
+  margin-right: 5px;
+}
